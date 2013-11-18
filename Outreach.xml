@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="Outreach">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+      <html>
+      	<body>
+      		<script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
+      		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular.min.js"></script>
+      		Hello World
+      	</body>
+      </html>
+    ]]>
+  </Content>
+</Module>
