@@ -11,6 +11,24 @@
       		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
       	</head>
       	<body>
+          <table class="table">
+          <thead>
+          <tr>
+          <th>Name</th>
+          <th>Number</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+          <td>Bob</td>
+          <td>6</td>
+          </tr>
+          <tr>
+          <td>Chris</td>
+          <td>8</td>
+          </tr>
+          </tbody>
+          </table>
           <div ng-controller="MainCtrl">
           <h1>Hello {{name}}</h1>
           </div>
