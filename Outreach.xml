@@ -31,7 +31,7 @@
                 angular.bootstrap(document, ['OutreachApp']);
                 }
               });
-          <script>
+          </script>
       	</body>
       </html>
     ]]>
