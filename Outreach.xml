@@ -11,11 +11,27 @@
       		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
       	</head>
       	<body>
+          <div ng-controller="MainCtrl">
+          <h1>Hello {{name}}</h1>
+          </div>
       		<script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
       		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
       		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular.min.js"></script>
       		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-      		Hello World
+          <script>
+            var app = angular.module('OutreachApp',[]);
+            
+            app.controller('MainCtrl', function($scope) {
+              $scope.name = "Matthew";
+            });
+          </script>
+          <script>
+              gapi.hangout.onApiReady.add(function(eventObj){
+              if (eventObj.isApiReady) {
+                angular.bootstrap(document, ['OutreachApp']);
+                }
+              });
+          <script>
       	</body>
       </html>
     ]]>
