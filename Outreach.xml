@@ -30,17 +30,22 @@
           </tbody>
           </table>
           <div ng-controller="MainCtrl">
-          <h1>Hello {{name}}</h1>
+          <li ng-repeat="character in characters">{{character.name}}</li>
           </div>
       		<script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
       		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
       		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular.min.js"></script>
+      		<script src="//cdn.firebase.com/v0/firebase.js"></script>
+          <script src="//cdn.firebase.com/libs/angularfire/0.3.0/angularfire.min.js"></script>
       		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
           <script>
-            var app = angular.module('OutreachApp',[]);
+            var app = angular.module('OutreachApp',['firebase']);
             
-            app.controller('MainCtrl', function($scope) {
-              $scope.name = "Matthew";
+            app.controller('MainCtrl', function($scope, angularFire) {
+              var ref = new Firebase("https://outreach.firebaseio.com/");
+              $scope.characters = [];
+              angularFire(ref,$scope,'characters');
+              
             });
           </script>
           <script>
