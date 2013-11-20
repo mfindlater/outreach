@@ -11,7 +11,8 @@
       		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
       	</head>
       	<body>
-          <div ng-controller="MainCtrl">
+          <div class="row" ng-controller="MainCtrl">
+          <div class="col-md-8">
           <table class="table">
           <thead>
           <tr>
@@ -23,6 +24,8 @@
           <tr ng-repeat="character in characters"><td>{{character.name}}</td><td>{{character.abilities.agility}}</td></tr>
           </tbody>
           </table>
+          </div>
+          <div class="col-md-4"></div>
           </div>
       		<script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
       		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
