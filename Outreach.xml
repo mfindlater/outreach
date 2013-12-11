@@ -31,8 +31,6 @@
             <td ng-cloak>{{character.player}}</td>
             <td ng-cloak>{{character.name}}</td>
             <td ng-cloak>{{character.abilities.agility}}</td>
-            <td ng-cloak>{{character.defenses.parry.rank}}</td>
-            <td ng-cloak>{{character.defenses.dodge.rank}}</td>
           </tr>
           </tbody>
           </table>
