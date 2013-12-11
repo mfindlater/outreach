@@ -16,12 +16,19 @@
           <table class="table">
           <thead>
           <tr>
+          <th>Player</th>
           <th>Name</th>
-          <th>Number</th>
+          <th>Initiative</th>
+          <th>Toughness</th>
+          <th>Fortitude</th>
+          <th>Will</th>
           </tr>
           </thead>
           <tbody>
-          <tr ng-repeat="character in characters"><td>{{character.name}}</td><td>{{character.abilities.agility}}</td></tr>
+          <tr ng-repeat="character in characters">
+            <td>{{character.player}}</td>
+            <td>{{character.name}}</td>
+            <td>{{character.abilities.agility}}</td></tr>
           </tbody>
           </table>
           </div>
