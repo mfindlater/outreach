@@ -24,13 +24,14 @@
           <th>Toughness</th>
           <th>Fortitude</th>
           <th>Will</th>
+          <th>Status</th>
           </tr>
           </thead>
           <tbody>
           <tr ng-repeat="character in characters">
             <td ng-cloak>{{character.player}}</td>
             <td ng-cloak>{{character.name}}</td>
-            <td ng-cloak>{{character.abilities.agility}}</td>
+            <td ng-cloak> <input type="text" ng-model="character.abilities.agility"/></td>
             <td ng-cloak>{{character.defenses.parry.rank}}</td>
             <td ng-cloak>{{character.defenses.dodge.rank}}</td>
           </tr>
