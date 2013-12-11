@@ -25,7 +25,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr ng-repeat="character in characters">
+          <tr ng-cloak ng-repeat="character in characters">
             <td>{{character.player}}</td>
             <td>{{character.name}}</td>
             <td>{{character.abilities.agility}}</td></tr>
