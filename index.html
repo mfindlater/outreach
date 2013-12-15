@@ -7,7 +7,22 @@
 <body>
 <div class="row">
   <div class="col-md-6">
-     <form class="form-horizontal" role="form">
+    <form class="form-horizontal" role="form">
+      <div class="form-group">
+        <input type="search" class="form-control"/>
+      </div>
+      <select multiple class="form-control"></select>
+      <br>
+      <div class="form-group">
+       <div class="btn-group">
+        <button type="button" class="btn btn-primary center-block">New</button>
+        <button type="button" class="btn btn-primary center-block">Load</button>
+       </div>
+      </div>
+  </form>  
+  </div> 
+  <div class="col-md-6">
+      <form class="form-horizontal" role="form">
       <legend>Character</legend>
         <div class="form-group">
           <label for="name" class="col-sm-2 control-label">Name</label>
@@ -21,21 +36,7 @@
             <input type="text" class="form-control" id="player" placeholder="Player">
           </div>
         </div>
-  </div> 
-  <div class="col-md-6">
-     <form class="form-horizontal" role="form">
-      <div class="form-group">
-         <label for="search" class="col-sm-2 control-label">Search</label>
-
-         <input type="search" class="form-control"/>
-      </div>
-
-    <select multiple class="form-control"></select>
-    <br>
-    <div class="form-group">
-            <button type="submit" class="btn btn-primary center-block">Load</button>
-    </div>
-    </form>
+      </form>
   </div> 
 </div>
 <div class="row">
