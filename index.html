@@ -7,7 +7,7 @@
 <script src="//cdn.firebase.com/v0/firebase.js"></script>
 <script src="//cdn.firebase.com/libs/angularfire/0.3.0/angularfire.min.js"></script>
 <script>
-  var app = angular.module('OutreachGM',['firebase']);
+  var app = angular.module('app',['firebase']);
             
       app.controller('MainCtrl', function($scope, angularFire) {
         var ref = new Firebase("https://outreach.firebaseio.com/");
