@@ -14,6 +14,10 @@
     $scope.character = $scope.characters.$child(character[0].$id)
     $scope.edit = true;
   }
+  
+  $scope.addCharacterToSession = function(){
+   
+  }
 
   $scope.saveCharacter = function() {
     if($scope.edit) {
