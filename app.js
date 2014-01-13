@@ -1,9 +1,12 @@
  var app = angular.module('app',['firebase']);
 
  app.controller('MainCtrl', ['$scope','$firebase','orderByPriorityFilter','Character', function($scope, $firebase, orderByPriorityFilter, Character) {
-  $scope.characters = $firebase(new Firebase('https://outreach.firebaseio.com/'));
+  $scope.characters = $firebase(new Firebase('https://outreach.firebaseio.com/characters'));
+  $scope.session = $firebase(new Firebase('https://outreach.firebaseio.com/session'));
   $scope.character = null;
   $scope.edit = false;
+
+
 
   $scope.newCharacter = function() {
     $scope.character = Character.New();
@@ -16,7 +19,7 @@
   }
   
   $scope.addCharacterToSession = function(){
-   
+    $scope.session.$add($scope.character);
   }
 
   $scope.saveCharacter = function() {
@@ -28,6 +31,8 @@
       $scope.characters.$add($scope.character);
     }
   }
+
+  $scope.newCharacter();
 }]);
 
 
@@ -35,6 +40,11 @@ app.factory('Character', function() {
   var Character = {
     New: function() {
       return {
+        "initiative":0,
+        "status": {
+          "bruises": 0,
+          "condition":"Normal"
+        },
         "defenses" : {
           "fortitude" : {
             "rank" : "0",
