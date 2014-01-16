@@ -4,37 +4,51 @@
   $scope.characters = $firebase(new Firebase('https://outreach.firebaseio.com/characters'));
   $scope.session = $firebase(new Firebase('https://outreach.firebaseio.com/session'));
   $scope.character = null;
-  $scope.edit = false;
-
+  $scope.editMode = false;
+  
 
 
   $scope.newCharacter = function() {
     $scope.character = Character.New();
-    $scope.edit = false;
+    $scope.editMode = false;
   }
+
+  $scope.newCharacter();
+
         
   $scope.loadCharacter = function(character) {
     $scope.character = $scope.characters.$child(character[0].$id)
-    $scope.edit = true;
+    $scope.editMode = true;
   }
   
-  $scope.addCharacterToSession = function(){
-    $scope.session.$add($scope.character);
-  }
-
   $scope.saveCharacter = function() {
-    if($scope.edit) {
+    if($scope.editMode) {
       $scope.character.$save();
+      alert($scope.character.name + ' Saved!');
     }
     else
     {
       $scope.characters.$add($scope.character);
+      alert($scope.character.name + ' Created!');
     }
   }
 
-  $scope.newCharacter();
-}]);
+  $scope.deleteCharacter = function() {
+    if($scope.editMode) {
 
+      if(confirm('Are you sure you want to delete ' + $scope.character.name + '?'))
+      {
+         $scope.character.$remove();
+      }
+
+    }
+  }
+
+  $scope.addCharacterToSession = function(){
+    $scope.session.$add($scope.character);
+  }
+
+}]);
 
 app.factory('Character', function() {
   var Character = {
