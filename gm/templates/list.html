@@ -1,0 +1,23 @@
+<div class="jumbotron center-block">
+  <div class="container">
+    <form role="form">
+      <div class="row">
+      <div class="col-md-12 col-lg-12">
+      <div class="form-group">
+        <input type="search" class="form-control" ng-model="searchText"/>
+      </div>
+      <select multiple class="form-control" ng-model="selectedCharacter" ng-options="c.name for c in characters  | orderByPriority | filter:searchText"></select>
+      </div>
+      </div>
+      <br>
+      <div class="form-group">
+       <div class="btn-group center-block">
+        <a href="#characters/new" class="btn btn-primary" role="button">New</a>
+        <button type="button" class="btn btn-primary" ng-click="loadCharacter(selectedCharacter)">Edit</button>
+        <button type="button" class="btn btn-primary" ng-click="deleteCharacter(selectedCharacter)">Delete</button>
+        <button type="button" class="btn btn-primary" ng-click="addToSession(selectedCharacter)">Add to Session</button>
+       </div>
+      </div>
+  </form>  
+  </div> 
+</div>

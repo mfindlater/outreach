@@ -1,53 +1,65 @@
- var app = angular.module('app',['firebase']);
-
- app.controller('MainCtrl', ['$scope','$firebase','orderByPriorityFilter','Character', function($scope, $firebase, orderByPriorityFilter, Character) {
-  $scope.characters = $firebase(new Firebase('https://outreach.firebaseio.com/characters'));
-  $scope.session = $firebase(new Firebase('https://outreach.firebaseio.com/session'));
-  $scope.character = null;
-  $scope.editMode = false;
-  
+var app = angular.module('app',['ngRoute','firebase']);
 
 
-  $scope.newCharacter = function() {
-    $scope.character = Character.New();
-    $scope.editMode = false;
-  }
+app.config(['$routeProvider',function($routeProvider) {
+  $routeProvider.when('/characters', {
+    templateUrl:'gm/templates/list.html',
+    controller:'ListController'
+  }).when('/characters/new', {
+    templateUrl:'gm/templates/character.html',
+    controller:'NewController'
+  }).when('/characters/:id/edit', {
+    templateUrl:'gm/templates/character.html',
+    controller:'EditController'
+  }).otherwise({redirectTo: '/characters'})
+}]);
 
-  $scope.newCharacter();
+app.controller('ListController', ['$scope','$firebase','$location','Session', function($scope, $firebase, $location, Session) {
+  var ref = new Firebase('https://outreach.firebaseio.com/characters');
+  $scope.characters = $firebase(ref);
+  $scope.session = Session;
 
-        
   $scope.loadCharacter = function(character) {
-    $scope.character = $scope.characters.$child(character[0].$id)
-    $scope.editMode = true;
+    $location.path('/characters/' + character[0].$id + '/edit');
   }
-  
+
+  $scope.deleteCharacter = function(character) {
+    if(confirm('Are you sure you want to delete ' + character[0].name + '?')) {
+      $scope.characters.$remove(character[0].$id);
+    }
+  }
+
+  $scope.addToSession = function(character) {
+    $scope.session.$add(character[0]);
+  }
+}]);
+
+app.controller('NewController', ['$scope','$firebase','Character', function($scope, $firebase, Character) {
+  var ref = new Firebase('https://outreach.firebaseio.com/characters');
+  $scope.characters = $firebase(ref);
+  $scope.character = Character.New();
+
   $scope.saveCharacter = function() {
-    if($scope.editMode) {
-      $scope.character.$save();
-      alert($scope.character.name + ' Saved!');
-    }
-    else
-    {
-      $scope.characters.$add($scope.character);
-      alert($scope.character.name + ' Created!');
-    }
+    $scope.characters.$add($scope.character);
+    alert($scope.character.name + ' Created!');
+    $location.path('/characters');
   }
+}]);
 
-  $scope.deleteCharacter = function() {
-    if($scope.editMode) {
+app.controller('EditController', ['$scope','$firebase','$routeParams', function($scope, $firebase, $routeParams) {
+  var ref = new Firebase('https://outreach.firebaseio.com/characters');
+  $scope.characters = $firebase(ref);
+  $scope.character = $scope.characters.$child($routeParams.id);
 
-      if(confirm('Are you sure you want to delete ' + $scope.character.name + '?'))
-      {
-         $scope.character.$remove();
-      }
-
-    }
+  $scope.saveCharacter = function() {
+    alert($scope.character.name + ' Saved!');
+    $scope.character.$save();
   }
+}]);
 
-  $scope.addCharacterToSession = function(){
-    $scope.session.$add($scope.character);
-  }
-
+app.factory('Session',['$firebase',function($firebase) {
+  var ref = new Firebase('https://outreach.firebaseio.com/session');
+  return $firebase(ref);
 }]);
 
 app.factory('Character', function() {
@@ -57,99 +69,100 @@ app.factory('Character', function() {
         "initiative":0,
         "status": {
           "bruises": 0,
-          "condition":"Normal"
+          "condition":"Normal",
+          "heroPoints":1
         },
         "defenses" : {
           "fortitude" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "stamina"
           },
           "will" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "awareness"
           },
           "parry" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "fighting"
           },
           "dodge" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "agility"
           },
           "toughness" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "stamina"
           }
         },
         "abilities" : {
-          "agility" : "0",
-          "intelligence" : "0",
-          "fighting" : "0",
-          "strength" : "0",
-          "presence" : "0",
-          "dexterity" : "0",
-          "awareness" : "0",
-          "stamina" : "0"
+          "agility" : 0,
+          "intelligence" : 0,
+          "fighting" : 0,
+          "strength" : 0,
+          "presence" : 0,
+          "dexterity" : 0,
+          "awareness" : 0,
+          "stamina" : 0
         },
         "skills" : {
           "insight" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "awareness"
           },
           "vehicles" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "dexterity"
           },
           "closeCombat" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "fighting"
           },
           "acrobatics" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "agility"
           },
           "stealth" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "agility"
           },
           "rangedCombat" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "dexterity"
           },
           "persuasion" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "presence"
           },
           "investigation" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "intelligence"
           },
           "atheletics" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "strength"
           },
           "deception" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "presence"
           },
           "treatment" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "intelligence"
           },
           "intimidation" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "presence"
           },
           "perception" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "awareness"
           },
           "technology" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "intelligence"
           },
           "sleightOfHand" : {
-            "rank" : "0",
+            "rank" : 0,
             "base" : "dexterity"
           }
         },
