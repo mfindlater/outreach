@@ -6,127 +6,65 @@
   </ModulePrefs>
   <Content type="html">
     <![CDATA[
-      <html>
-      	<head>
-      		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-      	</head>
-      	<body>
-          <div class="row" ng-controller="MainCtrl">
-          <div class="col-md-8">
-          <table class="table">
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="row" ng-controller="MainCtrl">
+      <div class="col-md-8">
+        <table class="table">
           <thead>
-          <tr>
-          <th>Player</th>
-          <th>Name</th>
-          <th>Initiative</th>
-          <th>Parry</th>
-          <th>Dodge</th>
-          <th>Toughness</th>
-          <th>Fortitude</th>
-          <th>Will</th>
-          <th>Status</th>
-          </tr>
+            <tr>
+              <th>Player</th>
+              <th>Name</th>
+              <th>Initiative</th>
+              <th>Parry</th>
+              <th>Dodge</th>
+              <th>Toughness</th>
+              <th>Fortitude</th>
+              <th>Will</th>
+              <th>Condition</th>
+            </tr>
           </thead>
           <tbody>
-          <tr ng-repeat="character in session |orderBy:'initiative':true">
-      <td ng-cloak>{{character.player}}</td>
-      <td ng-cloak>{{character.name}}</td>
-      <td ng-cloak> <input type="text" class="input-sm" ng-model="character.initiative"/></td>
-      <td ng-cloak>{{calculateParry(character)}}</td>
-      <td ng-cloak>{{calculateDodge(character)}}</td>
-      <td ng-cloak>{{calculateToughness(character)}}</td>
-      <td ng-cloak>{{calculateFortitude(character)}}</td>
-      <td ng-cloak>{{calculateWill(character)}}</td>
-      <td> <select ng-model="character.status.condition" ng-options="c.name for c in conditions"></select></td>
-          </tr>
+            <tr ng-repeat="character in session | orderByPriority | orderBy:'initiative':true">
+              <td ng-cloak>{{character.player}}</td>
+              <td ng-cloak>{{character.name}}</td>
+              <td ng-cloak ng-mouseover="showInitiative=true" ng-mouseleave="showInitiative=false">
+                <div ng-show="showInitiative"><input type="number" class="input-sm" ng-model="character.initiative"/></div>
+                <div ng-show="showInitiative==false">{{character.initiative}}</div>
+              </td>
+              <td ng-cloak>{{calculateParry(character)}}</td>
+              <td ng-cloak>{{calculateDodge(character)}}</td>
+              <td ng-cloak>{{calculateToughness(character)}}</td>
+              <td ng-cloak>{{calculateFortitude(character)}}</td>
+              <td ng-cloak>{{calculateWill(character)}}</td>
+              <td ng-mouseover="showCondition=true" ng-mouseleave="showCondition=false">
+                <div ng-show="showCondition"><select  ng-model="character.status.condition" ng-options="c as c for c in conditions | orderBy:'toString()'"></select></div>
+                <div ng-show="showCondition==false">{{character.status.condition}}</div>
+              </td>
+            </tr>
           </tbody>
-          </table>
-          </div>
-          <div class="col-md-4"></div>
-          </div>
-      		<script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
-      		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js"></script>
-      		<script src="//cdn.firebase.com/v0/firebase.js"></script>
-          <script src="//cdn.firebase.com/libs/angularfire/0.5.0/angularfire.min.js"></script>
-      		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-             <script>
-      var app = angular.module('OutreachApp',['firebase']);
-      
-      app.controller('MainCtrl', function($scope, $firebase) {
-        $scope.session = $firebase(new Firebase('https://outreach.firebaseio.com/session'));
-
-        $scope.session.$bind($scope, 'session');
-        
-        $scope.calculateParry = function(character) {
-          var parry = character.abilities.fighting|0 + character.defenses.parry.rank|0;
-          return parry;
+        </table>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+    <script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js"></script>
+    <script src="//cdn.firebase.com/v0/firebase.js"></script>
+    <script src="//cdn.firebase.com/libs/angularfire/0.5.0/angularfire.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="pc/app.js"></script>
+    <script>
+      gapi.hangout.onApiReady.add(function(eventObj){
+      if (eventObj.isApiReady) {
+        angular.bootstrap(document, ['OutreachApp']);
         }
-
-        $scope.calculateDodge = function(character) {
-          var dodge = character.abilities.dexterity|0 + character.defenses.dodge.rank|0;
-          return dodge;
-        }
-
-        $scope.calculateToughness = function(character) {
-          var toughness = character.abilities.stamina|0 + character.defenses.toughness.rank|0;
-          return toughness;
-        }
-
-        $scope.calculateFortitude = function(character) {
-          var toughness = character.abilities.stamina|0 + character.defenses.fortitude.rank|0;
-          return toughness;
-        }   
-
-        $scope.calculateWill = function(character) {
-          var will = character.abilities.awareness|0 + character.defenses.will.rank|0;
-          return will;
-        }
-
-
-        $scope.conditions = [
-          {name:'', description:'', linked:[]},
-          {name:'Compelled', description:'', linked:[]},
-          {name:'Controlled', description:'', linked:[]},
-          {name:'Dazed', description:'', linked:[]},
-          {name:'Debilitated', description:'', linked:[]},
-          {name:'Defenseless', description:'', linked:[]},
-          {name:'Disabled', description:'', linked:[]},
-          {name:'Fatigued', description:'', linked:[]},
-          {name:'Hindered', description:'', linked:[]},
-          {name:'Immobile', description:'', linked:[]},
-          {name:'Impaired', description:'', linked:[]},
-          {name:'Normal', description:'', linked:[]},
-          {name:'Stunned', description:'', linked:[]},
-          {name:'Tranformed', description:'', linked:[]},
-          {name:'Unaware', description:'', linked:[]},
-          {name:'Vulnerable', description:'', linked:[]},
-          {name:'Weakened', description:'', linked:[]},
-          {name:'Asleep', description:'', linked:['Defenseless', 'Stunned', 'Unaware']},
-          {name:'Blind', description:'', linked:['Hindered','Unaware','Vulnerable','Impaired','Disabled']},
-          {name:'Bound', description:'', linked:['Defenseless','Immobile','Impaired']},
-          {name:'Deaf', description:'', linked:['Unaware']},
-          {name:'Dying', description:'', linked:['Incapacitated']},
-          {name:'Entranced', description:'', linked:['Stunned']},
-          {name:'Exhausted', description:'', linked:['Impaired','Hindered']},
-          {name:'Incapacitated', description:'', linked:['Defenseless','Stunned','Unaware']},
-          {name:'Paralyzed', description:'', linked:['Defenseless','Immobile']},
-          {name:'Prone', description:'', linked:['Hindered']},
-          {name:'Restrained', description:'', linked:['Hindered', 'Vulnerable']},
-          {name:'Staggered', description:'', linked:['Dazed','Hindered']},
-          {name:'Surprised', description:'', linked:['Stunned', 'Vulnerable']}
-        ]
       });
-
     </script>
-          <script>
-              gapi.hangout.onApiReady.add(function(eventObj){
-              if (eventObj.isApiReady) {
-                angular.bootstrap(document, ['OutreachApp']);
-                }
-              });
-          </script>
-      	</body>
-      </html>
+  </body>
+</html>
     ]]>
   </Content>
 </Module>
