@@ -11,12 +11,12 @@
         $scope.reverse=false;
 
         $scope.calculateParry = function(character) {
-          var parry = character.abilities.fighting|0 + character.defenses.parry.rank|0;
+          var parry = (character.abilities.fighting|0 + character.defenses.parry.rank|0) + 10;
           return parry;
         }
 
         $scope.calculateDodge = function(character) {
-          var dodge = character.abilities.dexterity|0 + character.defenses.dodge.rank|0;
+          var dodge = (character.abilities.dexterity|0 + character.defenses.dodge.rank|0) + 10;
           return dodge;
         }
 
