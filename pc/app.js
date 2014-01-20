@@ -11,27 +11,27 @@
         $scope.reverse=false;
 
         $scope.calculateParry = function(character) {
-          var parry = (character.abilities.fighting|0 + character.defenses.parry.rank|0) + 10;
+          var parry = (character.abilities.fighting + character.defenses.parry.rank) + 10;
           return parry;
         }
 
         $scope.calculateDodge = function(character) {
-          var dodge = (character.abilities.dexterity|0 + character.defenses.dodge.rank|0) + 10;
+          var dodge = (character.abilities.agility + character.defenses.dodge.rank) + 10;
           return dodge;
         }
 
         $scope.calculateToughness = function(character) {
-          var toughness = (character.abilities.stamina|0 + character.defenses.toughness.rank|0) - character.status.bruises;
+          var toughness = (character.abilities.stamina + character.defenses.toughness.rank)
           return toughness;
         }
 
         $scope.calculateFortitude = function(character) {
-          var toughness = character.abilities.stamina|0 + character.defenses.fortitude.rank|0;
-          return toughness;
+          var fortitude = character.abilities.stamina + character.defenses.fortitude.rank;
+          return fortitude;
         }   
 
         $scope.calculateWill = function(character) {
-          var will = character.abilities.awareness|0 + character.defenses.will.rank|0;
+          var will = character.abilities.awareness + character.defenses.will.rank;
           return will;
         }
 
