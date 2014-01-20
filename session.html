@@ -26,7 +26,6 @@
     </thead>
     <tbody>
     <tr ng-repeat="character in session | orderByPriority | orderBy:'initiative':true">
-      {{$index}}
       <td ng-cloak>{{character.player}}</td>
       <td ng-cloak>{{character.name}}</td>
       <td ng-cloak ng-mouseover="showInitiative=true" ng-mouseleave="showInitiative=false">
