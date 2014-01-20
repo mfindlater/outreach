@@ -34,7 +34,7 @@ app.controller('ListController', ['$scope','$firebase','$location','Session', fu
   }
 }]);
 
-app.controller('NewController', ['$scope','$firebase','Character', function($scope, $firebase, Character) {
+app.controller('NewController', ['$scope','$firebase','Character','$location', function($scope, $firebase, Character, $location) {
   var ref = new Firebase('https://outreach.firebaseio.com/characters');
   $scope.characters = $firebase(ref);
   $scope.character = Character.New();
@@ -175,6 +175,17 @@ app.factory('Character', function() {
   return Character;
 });
 
+app.filter('capitalize', function() {
+    return function(input, scope) {
+        return input.substring(0,1).toUpperCase()+input.substring(1);
+    }
+});
+
+app.filter('space', function() {
+    return function(input, scope) {
+        return input.replace(/([a-z])([A-Z])/g, '$1 $2');
+    }
+});
 
 
 

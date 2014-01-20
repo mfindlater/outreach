@@ -5,6 +5,8 @@
         $firebase(ref).$bind($scope, 'session');
         $scope.showCondition = false;
         $scope.showInitiative = false;
+        $scope.showHeroPoints = false;
+        $scope.showBruises = false;
         $scope.predicate='initiative';
         $scope.reverse=false;
 
@@ -19,7 +21,7 @@
         }
 
         $scope.calculateToughness = function(character) {
-          var toughness = character.abilities.stamina|0 + character.defenses.toughness.rank|0;
+          var toughness = (character.abilities.stamina|0 + character.defenses.toughness.rank|0) - character.status.bruises;
           return toughness;
         }
 
@@ -114,3 +116,15 @@ app.directive('tabs', function() {
       replace: true
     };
   })
+
+app.filter('capitalize', function() {
+    return function(input, scope) {
+        return input.substring(0,1).toUpperCase()+input.substring(1);
+    }
+});
+
+app.filter('space', function() {
+    return function(input, scope) {
+        return input.replace(/([a-z])([A-Z])/g, '$1 $2');
+    }
+});
