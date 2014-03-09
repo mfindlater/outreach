@@ -21,7 +21,7 @@
         }
 
         $scope.calculateToughness = function(character) {
-          var toughness = (character.abilities.stamina + character.defenses.toughness.rank)
+          var toughness = (character.abilities.stamina + character.defenses.toughness.rank + $scope.getDefensiveRoll(character));
           return toughness;
         }
 
@@ -33,6 +33,15 @@
         $scope.calculateWill = function(character) {
           var will = character.abilities.awareness + character.defenses.will.rank;
           return will;
+        }
+
+        $scope.getDefensiveRoll = function(character) {
+          character.advantages.forEach(function(advantage) {
+            if(advantage.name = 'Defensive Roll') {
+              return parseInt(advantage.rank);
+            }
+          });
+          return 0;
         }
 
         $scope.conditions = [

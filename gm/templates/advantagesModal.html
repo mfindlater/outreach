@@ -1,0 +1,21 @@
+<div class="jumbotron center-block">
+  <div class="container">
+    <form role="form">
+      <div class="row">
+      <div class="col-md-12 col-lg-12">
+      <div class="form-group">
+        <input type="search" class="form-control" ng-model="searchText"/>
+      </div>
+      <select multiple class="form-control" ng-model="selected.item" ng-options="a.name for a in advantages  | orderByPriority | filter:searchText"></select>
+      </div>
+      </div>
+      <br>
+      <div class="form-group">
+       <div class="btn-group center-block">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+       </div>
+      </div>
+  </form>  
+  </div> 
+</div>

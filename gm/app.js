@@ -1,4 +1,4 @@
-var app = angular.module('app',['ngRoute','firebase']);
+var app = angular.module('app',['ngRoute','ngResource','firebase','ui.bootstrap']);
 
 
 app.config(['$routeProvider',function($routeProvider) {
@@ -44,6 +44,11 @@ app.controller('NewController', ['$scope','$firebase','Character','$location', f
     alert($scope.character.name + ' Created!');
     $location.path('/characters');
   }
+
+  $scope.removeAdvantage = function(index) {
+    $scope.character.advantages.splice(index,1);
+  }
+
 }]);
 
 app.controller('EditController', ['$scope','$firebase','$routeParams', function($scope, $firebase, $routeParams) {
@@ -51,15 +56,82 @@ app.controller('EditController', ['$scope','$firebase','$routeParams', function(
   $scope.characters = $firebase(ref);
   $scope.character = $scope.characters.$child($routeParams.id);
 
+  $scope.removeAdvantage = function(index) {
+    $scope.character.advantages.splice(index,1);
+  }
+
   $scope.saveCharacter = function() {
+    $scope.convertCharacter($scope.character);
     alert($scope.character.name + ' Saved!');
     $scope.character.$save();
   }
+
+  $scope.convertCharacter = function(character) {
+      if(!character.advantages)
+        character.advantages = [];
+      if(!character.powers)
+        character.powers = [];
+      if(!character.powerLevel)
+        character.powerLevel = 10;
+      if(!character.complications)
+        character.complications = [];
+  }
 }]);
+
+
+app.controller('AdvantagesModalInstanceController', function($scope,$modalInstance, advantages) {
+  $scope.advantages = advantages;
+
+  $scope.selected = {
+    item: $scope.advantages[0]
+  };
+
+  $scope.ok = function () {
+    $modalInstance.close($scope.selected.item[0]);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+});
+
+app.controller('AdvantagesController', ['$scope', '$modal', 'Advantages', function($scope, $modal, Advantages) {
+  $scope.advantages = Advantages.query();
+
+  $scope.open = function() {
+
+    var instance = $modal.open({
+      templateUrl: 'gm/templates/advantagesModal.html',
+      controller: 'AdvantagesModalInstanceController',
+      resolve : {
+        advantages: function() {
+          return $scope.advantages;
+        }
+      }
+    });
+
+    instance.result.then(function (selectedItem) {
+
+      if(selectedItem.ranked) {
+        selectedItem.rank = 1;
+      }
+      $scope.$parent.character.advantages.push(selectedItem);
+    }, function () {
+    });
+  }
+}]);
+
+
+
 
 app.factory('Session',['$firebase',function($firebase) {
   var ref = new Firebase('https://outreach.firebaseio.com/session');
   return $firebase(ref);
+}]);
+
+app.factory('Advantages',['$resource', function($resource) {
+  return $resource('gm/advantages.json', {}, {'query': {method: 'GET', isArray: true}});
 }]);
 
 app.factory('Character', function() {
@@ -166,8 +238,12 @@ app.factory('Character', function() {
             "base" : "dexterity"
           }
         },
+        "advantages": [],
+        "powers": [],
+        "complications": [],
         "name" : "",
-        "player" : ""
+        "player" : "",
+        "powerLevel" : 10
       } 
     }
   }

@@ -1,107 +1,114 @@
  <html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-  </head>
-  <style type="text/css">
+ <head>
+  <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+</head>
+<style type="text/css">
   .table td {
     text-align: center;
   }
-  </style>
-  <body>
-    <div class="row" ng-controller="MainCtrl">
+</style>
+<body>
+  <div class="row" ng-controller="MainCtrl">
     <div class="col-md-6">
-    <table class="table table-condensed">
-    <thead>
-    <tr>
-    <th>Player</th>
-    <th>Name</th>
-    <th>Initiative</th>
-    <th>Parry</th>
-    <th>Dodge</th>
-    <th>Toughness</th>
-    <th>Fortitude</th>
-    <th>Will</th>
-    <th>Condition</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="character in session | orderByPriority | orderBy:'initiative':true">
-      <td ng-cloak>{{character.player}}</td>
-      <td ng-cloak>{{character.name}}</td>
-      <td ng-cloak ng-mouseover="showInitiative=true" ng-mouseleave="showInitiative=false">
-        <div ng-show="showInitiative"><input type="number" class="input-sm" ng-model="character.initiative"/></div>
-        <div ng-show="showInitiative==false">{{character.initiative}}</div>
-      </td>
-      <td ng-cloak>{{calculateParry(character)}}</td>
-      <td ng-cloak>{{calculateDodge(character)}}</td>
-      <td ng-cloak>{{calculateToughness(character)}}</td>
-      <td ng-cloak>{{calculateFortitude(character)}}</td>
-      <td ng-cloak>{{calculateWill(character)}}</td>
-      <td ng-mouseover="showCondition=true" ng-mouseleave="showCondition=false"> 
-        <div ng-show="showCondition"><select  ng-model="character.status.condition" ng-options="c as c for c in conditions | orderBy:'toString()'"></select></div>
-        <div ng-show="showCondition==false">{{character.status.condition}}</div>
-      </td>
-    </tr>
-    </tbody>
-    </table>
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Name</th>
+            <th>Initiative</th>
+            <th>Parry</th>
+            <th>Dodge</th>
+            <th>Toughness</th>
+            <th>Fortitude</th>
+            <th>Will</th>
+            <th>Condition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="character in session | orderByPriority | orderBy:'initiative':true">
+            <td ng-cloak>{{character.player}}</td>
+            <td ng-cloak>{{character.name}}</td>
+            <td ng-cloak ng-mouseover="showInitiative=true" ng-mouseleave="showInitiative=false">
+              <div ng-show="showInitiative"><input type="number" class="input-sm" ng-model="character.initiative"/></div>
+              <div ng-show="showInitiative==false">{{character.initiative}}</div>
+            </td>
+            <td ng-cloak>{{calculateParry(character)}}</td>
+            <td ng-cloak>{{calculateDodge(character)}}</td>
+            <td ng-cloak>{{calculateToughness(character)}}</td>
+            <td ng-cloak>{{calculateFortitude(character)}}</td>
+            <td ng-cloak>{{calculateWill(character)}}</td>
+            <td ng-mouseover="showCondition=true" ng-mouseleave="showCondition=false"> 
+              <div ng-show="showCondition"><select  ng-model="character.status.condition" ng-options="c as c for c in conditions | orderBy:'toString()'"></select></div>
+              <div ng-show="showCondition==false">{{character.status.condition}}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <div class="col-md-6">
       <tabs>
         <pane ng-repeat="character in session" title="{{character.name}}">
-        <div class="row">
-        <div class="col-md-3 col-lg-3">
-        <b>Hero Points</b>
-        <div ng-mouseover="showHeroPoints=true" ng-mouseleave="showHeroPoints=false">
-        <div ng-show="showHeroPoints"><input type="number" class="input-sm" ng-model="character.status.heroPoints"/></div>
-        <div ng-show="showHeroPoints==false">{{character.status.heroPoints}}</div>
-        </div> 
-        <br>
-        
-        <div ng-mouseover="showBruises=true" ng-mouseleave="showBruises=false">
-        <b>Bruises</b>
-        <div ng-show="showBruises"><input type="number" class="input-sm" ng-model="character.status.bruises"/></div>
-        <div ng-show="showBruises==false">{{character.status.bruises}}</div>
+          <div class="row">
+            <div class="col-md-3 col-lg-3">
+              <b>Hero Points</b>
+              <div ng-mouseover="showHeroPoints=true" ng-mouseleave="showHeroPoints=false">
+                <div ng-show="showHeroPoints"><input type="number" class="input-sm" ng-model="character.status.heroPoints"/></div>
+                <div ng-show="showHeroPoints==false">{{character.status.heroPoints}}</div>
+              </div> 
+              <br>
+
+              <div ng-mouseover="showBruises=true" ng-mouseleave="showBruises=false">
+                <b>Bruises</b>
+                <div ng-show="showBruises"><input type="number" class="input-sm" ng-model="character.status.bruises"/></div>
+                <div ng-show="showBruises==false">{{character.status.bruises}}</div>
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3">
+             <ul style="list-style:none">
+              <li><b>STR</b> {{character.abilities.strength}}</li>
+              <li><b>AGL</b> {{character.abilities.agility}}</li>
+              <li><b>FGT</b> {{character.abilities.fighting}}</li>
+              <li><b>AWE</b> {{character.abilities.awareness}}</li>
+              <li><b>STA</b> {{character.abilities.stamina}}</li>
+              <li><b>DEX</b> {{character.abilities.dexterity}}</li>
+              <li><b>INT</b> {{character.abilities.intelligence}}</li>
+              <li><b>PRE</b> {{character.abilities.presence}}</li>
+            </ul>
+            <ul style="list-style:none">
+              <li><b>Dodge(AGL)</b> {{character.abilities.agility + character.defenses.dodge.rank}}</li>
+              <li><b>Parry(FGT)</b> {{character.abilities.fighting + character.defenses.parry.rank}}</li>
+              <li><b>Fortitude(STA)</b> {{character.abilities.stamina + character.defenses.fortitude.rank}}</li>
+              <li><b>Toughness(STA)</b> {{character.abilities.stamina + character.defenses.toughness.rank}}</li>
+              <li><b>Will(AWE)</b> {{character.abilities.awareness + character.defenses.will.rank}}</li>
+            </ul>
+          </div>
+          <div class="col-md-3 col-lg-3">
+            <ul style="list-style:none">
+              <li ng-repeat="(key, data) in character.skills">
+                <b>{{key | capitalize | space}}</b> {{data.rank + character.abilities[data.base]}}
+              </li>  
+            </ul>
+          </div>
+          <div class="col-md-3 col-lg-3">
+            <ul style="list-style:none">
+              <li ng-repeat="advantage in character.advantages">
+              <a href="{{advantage.url}}" title="{{advantage.description}}">{{advantage.name}}&nbsp;<span nf-if="advantage.ranked">{{advantage.rank}}</span></a>
+              </li>  
+            </ul>
+          </div>
         </div>
-       </div>
-       <div class="col-md-3 col-lg-3">
-               <ul style="list-style:none">
-          <li><b>STR</b> {{character.abilities.strength}}</li>
-          <li><b>AGL</b> {{character.abilities.agility}}</li>
-          <li><b>FGT</b> {{character.abilities.fighting}}</li>
-          <li><b>AWE</b> {{character.abilities.awareness}}</li>
-          <li><b>STA</b> {{character.abilities.stamina}}</li>
-          <li><b>DEX</b> {{character.abilities.dexterity}}</li>
-          <li><b>INT</b> {{character.abilities.intelligence}}</li>
-          <li><b>PRE</b> {{character.abilities.presence}}</li>
-       </ul>
-           <ul style="list-style:none">
-    <li><b>Dodge(AGL)</b> {{character.abilities.agility + character.defenses.dodge.rank}}</li>
-    <li><b>Parry(FGT)</b> {{character.abilities.fighting + character.defenses.parry.rank}}</li>
-    <li><b>Fortitude(STA)</b> {{character.abilities.stamina + character.defenses.fortitude.rank}}</li>
-    <li><b>Toughness(STA)</b> {{character.abilities.stamina + character.defenses.toughness.rank}}</li>
-    <li><b>Will(AWE)</b> {{character.abilities.awareness + character.defenses.will.rank}}</li>
-   </ul>
-       </div>
-        <div class="col-md-3 col-lg-3">
-          <ul style="list-style:none">
-    <li ng-repeat="(key, data) in character.skills">
-      <b>{{key | capitalize | space}}</b> {{data.rank + character.abilities[data.base]}}
-    </li>  
-  </ul>
-        </div>
-      </div>
-        </pane>
-      </tabs>
-      </div>
-    </div>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
-    <script src="//cdn.firebase.com/v0/firebase.js"></script>
-    <script src="//cdn.firebase.com/libs/angularfire/0.5.0/angularfire.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-    <script src="pc/app.js"></script>
-    <script>
-        angular.bootstrap(document, ['OutreachApp']);
-    </script>
-  </body>
+      </pane>
+    </tabs>
+  </div>
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
+<script src="//cdn.firebase.com/v0/firebase.js"></script>
+<script src="//cdn.firebase.com/libs/angularfire/0.5.0/angularfire.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="pc/app.js"></script>
+<script>
+  angular.bootstrap(document, ['OutreachApp']);
+</script>
+</body>
 </html>
