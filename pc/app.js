@@ -36,14 +36,13 @@
         }
 
         $scope.getDefensiveRoll = function(character) {
-      
+          var retval = 0;        
           character.advantages.forEach(function(advantage) {
             if(advantage.name == 'Defensive Roll') {
-              console.log(advantage.name);
-              return parseInt(advantage.rank);
+              retval = parseInt(advantage.rank);
             }
           });
-          return 0;
+          return retval;
         }
 
         $scope.conditions = [
