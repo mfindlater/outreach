@@ -39,6 +39,7 @@
       
           character.advantages.forEach(function(advantage) {
             if(advantage.name == 'Defensive Roll') {
+              console.log(advantage.name);
               return parseInt(advantage.rank);
             }
           });
