@@ -4,9 +4,9 @@
       <div class="row">
       <div class="col-md-12 col-lg-12">
       <div class="form-group">
-        <input type="search" class="form-control" ng-model="searchText"/>
+        <input type="search" class="form-control" ng-model="searchText" typeahead="character.name for character in characters | orderByPriority  | filter:$viewValue | limitTo:5 "/>
       </div>
-      <select multiple class="form-control" ng-model="selectedCharacter" ng-options="c.name for c in characters  | orderByPriority | filter:searchText"></select>
+      <select multiple class="form-control" ng-model="selectedCharacter"  ng-options="c.name for c in characters  | orderByPriority | filter:searchText"></select>
       </div>
       </div>
       <br>
