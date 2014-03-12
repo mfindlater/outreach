@@ -12,7 +12,7 @@
     <div class="col-md-6">
       <table class="table table-condensed">
         <thead>
-          <tr>
+          <tr class="panel-header">
             <th>Player</th>
             <th>Name</th>
             <th>Initiative</th>
@@ -28,26 +28,20 @@
           <tr ng-repeat="character in session | orderByPriority | orderBy:'initiative':true">
             <td ng-cloak>{{character.player}}</td>
             <td ng-cloak>{{character.name}}</td>
-            <td ng-cloak ng-mouseover="showInitiative=true" ng-mouseleave="showInitiative=false">
-              <div ng-show="showInitiative"><input type="number" class="input-sm" ng-model="character.initiative"/></div>
-              <div ng-show="showInitiative==false">{{character.initiative}}</div>
-            </td>
+            <td ng-cloak>{{character.initiative}}</td>
             <td ng-cloak>{{calculateParry(character)}}</td>
             <td ng-cloak>{{calculateDodge(character)}}</td>
             <td ng-cloak>{{calculateToughness(character)}}</td>
             <td ng-cloak>{{calculateFortitude(character)}}</td>
             <td ng-cloak>{{calculateWill(character)}}</td>
-            <td ng-mouseover="showCondition=true" ng-mouseleave="showCondition=false"> 
-              <div ng-show="showCondition"><select  ng-model="character.status.condition" ng-options="c as c for c in conditions | orderBy:'toString()'"></select></div>
-              <div ng-show="showCondition==false">{{character.status.condition}}</div>
-            </td>
+            <td><select  ng-model="character.status.condition" ng-options="c as c for c in conditions | orderBy:'toString()'"></select></td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="col-md-6">
-      <tabs>
-        <pane ng-repeat="character in session" title="{{character.name}}">
+      <tabset>
+        <tab ng-repeat="character in session" heading="{{character.name}}" active="tab.active" disabled="tab.disabled">
           <div class="row">
             <div class="col-md-3 col-lg-3">
               <b>Hero Points</b>
@@ -61,6 +55,11 @@
                 <b>Bruises</b>
                 <div ng-show="showBruises"><input type="number" class="input-sm" ng-model="character.status.bruises"/></div>
                 <div ng-show="showBruises==false">{{character.status.bruises}}</div>
+              </div>
+              <div ng-mouseover="showInitiative=true" ng-mouseleave="showInitiative=false">
+                <b>Inititiative</b>
+                <div ng-show="showInitiative"><input type="number" class="input-sm" ng-model="character.initiative"/></div>
+                <div ng-show="showInitiative==false">{{character.initiative}}</div>
               </div>
             </div>
             <div class="col-md-3 col-lg-3">
@@ -92,20 +91,22 @@
           <div class="col-md-3 col-lg-3">
             <ul style="list-style:none">
               <li ng-repeat="advantage in character.advantages">
-              <a href="{{advantage.url}}" title="{{advantage.description}}">{{advantage.name}}&nbsp;<span nf-if="advantage.ranked">{{advantage.rank}}</span></a>
+              <a href="{{advantage.url}}" popover="{{advantage.description}}" popover-trigger="mouseenter" popover-placement="left">{{advantage.name}}&nbsp;<span nf-if="advantage.ranked">{{advantage.rank}}</span></a>
               </li>  
             </ul>
           </div>
         </div>
-      </pane>
-    </tabs>
+      </tab>
+    </tabset>
   </div>
 </div>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
 <script src="//cdn.firebase.com/v0/firebase.js"></script>
 <script src="//cdn.firebase.com/libs/angularfire/0.7.0/angularfire.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<!--<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
 <script src="pc/app.js"></script>
 <script>
   angular.bootstrap(document, ['OutreachApp']);
